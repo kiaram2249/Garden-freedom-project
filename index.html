@@ -22,29 +22,70 @@
         <script src = "p5.play.js" type="text/javascript"></script>
         <script>
 
-            let setting;
-            let settingY = 0;
+        //     let setting;
+        //     let settingY = 0;
 
-            function preload(){
-            setting = loadImage("wood.png");
-            }
+        //     function preload(){
+        //     setting = loadImage("wood.png");
+        //     }
 
-            function setup() {
-            createCanvas(1370, 600, "pixelated");
-            }
+        //     function setup() {
+        //     createCanvas(1370, 600, "pixelated");
+        //     }
 
-            function draw() {
-            background(0);
+        //     function draw() {
+        //     background(0);
 
-            image(setting, 0, settingY, width, height);
-            image(setting, 0, settingY + height, width, height);
-            settingY--;
+        //     image(setting, 0, settingY, width, height);
+        //     image(setting, 0, settingY + height, width, height);
+        //     settingY--;
 
-            if (settingY < -height) {
-                settingY = 0;
-            }
-        }
+        //     if (settingY < -height) {
+        //         settingY = 0;
+        //     }
+        // }
 
+        let basket, shapes, score = 0;
+
+    function setup() {
+        createCanvas(600, 400);
+        basket = new Sprite(width / 2, 370, 100, 20, 'static');
+        basket.color = 'brown';
+        shapes = new Group();
+        textSize(20);
+    }
+
+function draw() {
+  background(240);
+
+  // Basket follows mouse
+  basket.x = constrain(mouseX, 50, width - 50);
+
+  // Drop new shape every 30 frames
+  if (frameCount % 30 === 0) {
+    let s = new Sprite(shapes);
+    s.x = random(50, 550);
+    s.y = -20;
+    s.d = random(20, 40); // diameter (works for both shapes)
+    s.color = color(random(255), random(255), random(255));
+    s.vel.y = random(2, 5);
+    if (random() < 0.5) s.collider = 'circle';
+  }
+
+  // Catching and cleanup
+  for (let s of shapes) {
+    if (s.overlapping(basket)) {
+      score++;
+      s.remove();
+    } else if (s.y > height + 30) {
+      s.remove();
+    }
+  }
+
+  // Show score
+  fill(0);
+  text("Score: " + score, 10, 10);
+}
 
         </script>
     </body>
