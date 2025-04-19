@@ -66,21 +66,21 @@
         basket = new Sprite(300, 370, 100, 20, 'static');  // position x, y, width, height
         basket.color = 'brown';
         shapes = new Group();    // group to hold all falling shapes
-        textSize(20);            // text size for score
+        textSize(20);   // text size for score
     }
         function draw() {
-        background("200");              // light gray background
+        background("200");  // light gray background
         // move the basket to follow the mouse
         basket.x = constrain(mouseX, 50, 550); // keep inside screen
         // every 30 frames (half a second), drop a shape
-        // if (frameCount % 30 === 0) {
+        if (frameCount % 15 === 0) {
             let shape = new Sprite(shapes);
                 shape.x = random(50, 550);       // random spot at top
                 shape.y = -20;
                 shape.d = random(30, 60);        // random size
                 shape.color = color(random(255), random(255), random(255));
                 shape.vel.y = random(1, 2);      // falling speed
-            // }
+            }
         for (let shape of shapes) {  // check every shape
             // if it touches the basket, you get a point
             if (shape.overlapping(basket)) {
