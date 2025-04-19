@@ -19,24 +19,6 @@
         <script src="https://p5play.org/v3/planck.min.js"></script>
         <script src="https://p5play.org/v3/p5play.js"></script>
         <script>
-        //     let setting;
-        //     let settingY = 0;
-        //     function preload(){
-        //     setting = loadImage("wood.png");
-        //     }
-        //     function setup() {
-        //     createCanvas(1370, 600, "pixelated");
-        //     }
-        //     function draw() {
-        //     background(0);
-        //     image(setting, 0, settingY, width, height);
-        //     image(setting, 0, settingY + height, width, height);
-        //     settingY--;
-        //     if (settingY < -height) {
-        //         settingY = 0;
-        //     }
-        // }
-
 
         let basket;       // the thing you move
         let shapes;       // the falling stuff
@@ -45,8 +27,8 @@
         function setup() {
             // REMOVES THE WATERMARK DO NOT REMOVE
             p5play.disableSplash = true;
-        createCanvas(600, 400);  // make the game screen
-        basket = new Sprite(300, 370, 100, 20, 'static');  // position x, y, width, height
+        createCanvas(1370, 600);  // make the game screen
+        basket = new Sprite(300, 570, 100, 20, 'static');  // position x, y, width, height
         basket.color = 'brown';
         shapes = new Group();    // group to hold all falling shapes
         textSize(20);            // text size for score
@@ -54,11 +36,11 @@
         function draw() {
         background(240);              // light gray background
         // move the basket to follow the mouse
-        basket.x = constrain(mouseX, 50, 550); // keep inside screen
+        basket.x = constrain(mouseX, 50, 1350); // keep inside screen
         // every 30 frames (half a second), drop a shape
-        if (frameCount % 30 === 0) {
+        if (frameCount % 10 === 0) {
             let shape = new Sprite(shapes);
-                shape.x = random(50, 550);       // random spot at top
+                shape.x = random(50, 1350);    // random spot at top
                 shape.y = -20;
                 shape.d = random(20, 40);        // random size
                 shape.color = color(random(255), random(255), random(255));
