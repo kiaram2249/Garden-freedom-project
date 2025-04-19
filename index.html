@@ -22,6 +22,28 @@
         <script src="script.js"></script>
         <script>
             // JS
+            let setting;
+            let settingY = 0;
+
+            function preload(){
+                setting = loadImage("wood.png");
+            }
+
+            function setup() {
+                new Canvas(700, 500, "pixelated");
+            }
+
+            function draw() {
+            background(0);
+
+            image(setting, 0, settingY, width, height);
+            image(setting, 0, settingY + height, width, height);
+            settingY--;
+
+            if (settingY < -height) {
+            settingY = 0;
+        }
+    }
 
 
         </script>
