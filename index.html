@@ -22,28 +22,78 @@
         <script src = "p5.play.js" type="text/javascript"></script>
         <script>
 
-            let setting;
-            let settingY = 0;
+        //     let setting;
+        //     let settingY = 0;
 
-            function preload(){
-            setting = loadImage("wood.png");
+        //     function preload(){
+        //     setting = loadImage("wood.png");
+        //     }
+
+        //     function setup() {
+        //     createCanvas(1370, 600, "pixelated");
+        //     }
+
+        //     function draw() {
+        //     background(0);
+
+        //     image(setting, 0, settingY, width, height);
+        //     image(setting, 0, settingY + height, width, height);
+        //     settingY--;
+
+        //     if (settingY < -height) {
+        //         settingY = 0;
+        //     }
+        // }
+
+        let basket;       // the thing you move
+        let shapes;       // the falling stuff
+        let score = 0;    // how many you catch
+
+        function setup() {
+        createCanvas(600, 400);  // make the game screen
+
+        // make the basket near the bottom
+        basket = new Sprite(300, 370, 100, 20, 'static');
+        basket.color = 'brown';
+
+        shapes = new Group();         // group to hold all falling shapes
+        textSize(20);                 // text size for score
+    }
+
+        function draw() {
+        background(240);              // light gray background
+
+        // move the basket to follow the mouse
+        basket.x = constrain(mouseX, 50, 550); // keep inside screen
+
+        // every 30 frames (half a second), drop a shape
+        if (frameCount % 30 === 0) {
+            let shape = new Sprite(shapes);
+                shape.x = random(50, 550);       // random spot at top
+                shape.y = -20;
+                shape.d = random(20, 40);        // random size
+                shape.color = color(random(255), random(255), random(255));
+                shape.vel.y = random(2, 5);      // falling speed
             }
 
-            function setup() {
-            createCanvas(1370, 600, "pixelated");
+            // check every shape
+        for (let shape of shapes) {
+            // if it touches the basket, you get a point
+            if (shape.overlapping(basket)) {
+                score++;
+                shape.remove(); // remove caught shape
             }
-
-            function draw() {
-            background(0);
-
-            image(setting, 0, settingY, width, height);
-            image(setting, 0, settingY + height, width, height);
-            settingY--;
-
-            if (settingY < -height) {
-                settingY = 0;
+        // if it falls off the screen, remove it
+            else if (shape.y > height + 30) {
+                shape.remove();
             }
         }
+
+        // show the score at the top left
+            fill(0);
+            text("Score: " + score, 10, 10);
+        }
+
 
 
         </script>
