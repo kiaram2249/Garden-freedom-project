@@ -45,26 +45,26 @@
         //     }
         // }
 
-        let basket;       // the thing you move
-        let shapes;       // the falling stuff
-        let score = 0;    // how many you catch
+        let basket;  // the thing you move
+        let shapes;  // the falling stuff
+        let score = 0;  // how many you catch
 
         function setup() {
-        createCanvas(600, 400);  // make the game screen
-        basket = new Sprite(300, 370, 100, 20, 'static');     // make the basket near the bottom
-        basket.color = 'brown';
-        shapes = new Group();         // group to hold all falling shapes
-        textSize(20);                 // text size for score
-    }
+            createCanvas(600, 400);  // make the game screen
+            basket = new Sprite(300, 370, 100, 20, 'static');  // make the basket near the bottom
+            basket.color = 'brown';
+            shapes = new Group();    // group to hold all falling shapes
+            textSize(20);    // text size for score
+            background('240');    // light gray background
+        }
 
         function draw() {
-        background(240);              // light gray background
-        // move the basket to follow the mouse
-        basket.x = constrain(mouseX, 50, 550); // keep inside screen
+            // move the basket to follow the mouse
+            basket.x = constrain(mouseX, 50, 550); // keep inside screen
 
-        // every 30 frames (half a second), drop a shape
-        if (frameCount % 30 === 0) {
-            let shape = new Sprite(shapes);
+            // every 30 frames (half a second), drop a shape
+            if (frameCount % 30 === 0) {
+                let shape = new Sprite(shapes);
                 shape.x = random(50, 550);       // random spot at top
                 shape.y = -20;
                 shape.d = random(20, 40);        // random size
