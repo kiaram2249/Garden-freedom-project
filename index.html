@@ -45,47 +45,49 @@
         //     }
         // }
 
-        let basket, shapes, score = 0;
+        let basket;       // the thing you move
+        let shapes;       // the falling stuff
+        let score = 0;    // how many you catch
 
-    function setup() {
-        createCanvas(600, 400);
-        basket = new Sprite(width / 2, 370, 100, 20, 'static');
+        function setup() {
+        createCanvas(600, 400);  // make the game screen
+        basket = new Sprite(300, 370, 100, 20, 'static');     // make the basket near the bottom
         basket.color = 'brown';
-        shapes = new Group();
-        textSize(20);
+        shapes = new Group();         // group to hold all falling shapes
+        textSize(20);                 // text size for score
     }
 
-function draw() {
-  background(240);
+        function draw() {
+        background(240);              // light gray background
+        // move the basket to follow the mouse
+        basket.x = constrain(mouseX, 50, 550); // keep inside screen
 
-  // Basket follows mouse
-  basket.x = constrain(mouseX, 50, width - 50);
+        // every 30 frames (half a second), drop a shape
+        if (frameCount % 30 === 0) {
+            let shape = new Sprite(shapes);
+                shape.x = random(50, 550);       // random spot at top
+                shape.y = -20;
+                shape.d = random(20, 40);        // random size
+                shape.color = color(random(255), random(255), random(255));
+                shape.vel.y = random(2, 5);      // falling speed
+            }
 
-  // Drop new shape every 30 frames
-  if (frameCount % 30 === 0) {
-    let s = new Sprite(shapes);
-    s.x = random(50, 550);
-    s.y = -20;
-    s.d = random(20, 40); // diameter (works for both shapes)
-    s.color = color(random(255), random(255), random(255));
-    s.vel.y = random(2, 5);
-    if (random() < 0.5) s.collider = 'circle';
-  }
+        for (let shape of shapes) {  // check every shape
+            // if it touches the basket, you get a point
+            if (shape.overlapping(basket)) {
+                score++;
+                shape.remove(); // remove caught shape
+            }
+        // if it falls off the screen, remove it
+            else if (shape.y > height + 30) {
+                shape.remove();
+            }
+        }
 
-  // Catching and cleanup
-  for (let s of shapes) {
-    if (s.overlapping(basket)) {
-      score++;
-      s.remove();
-    } else if (s.y > height + 30) {
-      s.remove();
-    }
-  }
-
-  // Show score
-  fill(0);
-  text("Score: " + score, 10, 10);
-}
+        // show the score at the top left
+            fill(0);
+            text("Score: " + score, 10, 10);
+        }
 
         </script>
     </body>
