@@ -7,7 +7,26 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
         <style>
             /* CSS */
-        </style>
+            html {
+                height: 100%;
+                margin: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #F0F0F0;
+            }
+            body {
+                height: 100%;
+                margin: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #F0F0F0;
+            }
+            canvas {
+                border: 1px solid #000;
+            }
+                </style>
         <title>Title</title>
     </head>
     <body>
@@ -19,16 +38,31 @@
         <script src="https://p5play.org/v3/planck.min.js"></script>
         <script src="https://p5play.org/v3/p5play.js"></script>
         <script>
-
+        //     let setting;
+        //     let settingY = 0;
+        //     function preload(){
+        //     setting = loadImage("wood.png");
+        //     }
+        //     function setup() {
+        //     createCanvas(1370, 600, "pixelated");
+        //     }
+        //     function draw() {
+        //     background(0);
+        //     image(setting, 0, settingY, width, height);
+        //     image(setting, 0, settingY + height, width, height);
+        //     settingY--;
+        //     if (settingY < -height) {
+        //         settingY = 0;
+        //     }
+        // }
         let basket;       // the thing you move
         let shapes;       // the falling stuff
         let score = 0;    // how many you catch
-
         function setup() {
             // REMOVES THE WATERMARK DO NOT REMOVE
             p5play.disableSplash = true;
-        createCanvas(1370, 600);  // make the game screen
-        basket = new Sprite(300, 570, 100, 20, 'static');  // position x, y, width, height
+        createCanvas(600, 400);  // make the game screen
+        basket = new Sprite(300, 370, 100, 20, 'static');  // position x, y, width, height
         basket.color = 'brown';
         shapes = new Group();    // group to hold all falling shapes
         textSize(20);            // text size for score
@@ -36,16 +70,16 @@
         function draw() {
         background(240);              // light gray background
         // move the basket to follow the mouse
-        basket.x = constrain(mouseX, 50, 1350); // keep inside screen
+        basket.x = constrain(mouseX, 50, 550); // keep inside screen
         // every 30 frames (half a second), drop a shape
-        if (frameCount % 10 === 0) {
+        // if (frameCount % 30 === 0) {
             let shape = new Sprite(shapes);
-                shape.x = random(50, 1350);    // random spot at top
+                shape.x = random(50, 550);       // random spot at top
                 shape.y = -20;
-                shape.d = random(20, 40);        // random size
+                shape.d = random(30, 60);        // random size
                 shape.color = color(random(255), random(255), random(255));
-                shape.vel.y = random(2, 5);      // falling speed
-            }
+                shape.vel.y = random(1, 2);      // falling speed
+            // }
         for (let shape of shapes) {  // check every shape
             // if it touches the basket, you get a point
             if (shape.overlapping(basket)) {
@@ -64,13 +98,3 @@
         </script>
     </body>
 </html>
-
-
-
-
-
-
-
-
-
-
