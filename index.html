@@ -37,7 +37,7 @@
         // move the basket to follow the mouse
         basket.x = constrain(mouseX, 50, 1350); // keep inside screen
         // every 30 frames (half a second), drop a shape
-        if (frameCount % 30 === 0) {
+        if (frameCount % 10 === 0) {
             let shape = new Sprite(shapes);
                 shape.x = random(50, 1350);    // random spot at top
                 shape.y = -20;
