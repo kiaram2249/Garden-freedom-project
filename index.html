@@ -50,6 +50,7 @@
              let basket;       // the thing you move
              let shapes;       // the falling stuff
              let score = 0;    // how many you catch
+             let gameOver = false; // to make it game over
 
              function setup() {
                 createCanvas(600, 400);  // make the game screen
@@ -69,6 +70,14 @@
                 settingY = 0;
             }
 
+                if(gameOver){
+                    fill(255,0,0);
+                    textAlign(CENTER, CENTER);
+                    textSize(40);
+                    text("GAME OVER", width/2, height/2);
+                    return; // stop the game
+                }
+
             // move the basket to follow the mouse
             basket.x = constrain(mouseX, 50, 550); // keep inside screen
             // every 30 frames (half a second), drop a shape
@@ -82,17 +91,32 @@
                 shape.vel.y = random(2, 5);   // falling speed
             }
 
+            if (random() < 0.3) {
+                    // Square shape (danger)
+                    shape.w = shape.d;
+                    shape.h = shape.d;
+                    shape.color = 'red';
+                    shape.isSquare = true;
+                } else {
+                    // Circle shape (safe)
+                    shape.diameter = shape.d;
+                    shape.color = 'green';
+                    shape.isSquare = false;
+                }
+
+
             for (let shape of shapes) {  // check every shape
                 // if it touches the basket, you get a point
-                if (shape.overlapping(basket)) {
-                    score++;
-                    shape.remove(); // remove caught shape
-                }
-            // if it falls off the screen, remove it
-                else if (shape.y > height + 30) {
+                if (shape.isSquare) {
+                        gameOver = true;
+                    } else {
+                        score++;
+                    }
+                    shape.remove();
+                } else if (shape.y > height + 30) {
                     shape.remove();
                 }
-            }
+        
             // show the score at the top left
                 fill(0);
                 text("Score: " + score, 10, 15);
