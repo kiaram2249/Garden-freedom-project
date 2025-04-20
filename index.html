@@ -69,7 +69,6 @@
                 settingY = 0;
             }
 
-
             // move the basket to follow the mouse
             basket.x = constrain(mouseX, 50, 550); // keep inside screen
             // every 30 frames (half a second), drop a shape
@@ -82,7 +81,7 @@
                 shape.color = color(random(255), random(255), random(255));
                 shape.vel.y = random(2, 5);   // falling speed
             }
-            
+
             for (let shape of shapes) {  // check every shape
                 // if it touches the basket, you get a point
                 if (shape.overlapping(basket)) {
