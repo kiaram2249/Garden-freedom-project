@@ -38,7 +38,6 @@
         <script src = "p5.play.js" type="text/javascript"></script>
         <script src = "https://p5play.org/v3/planck.min.js"></script>
         <script src = "https://p5play.org/v3/p5play.js"></script>
-        <!-- <script src = ""></script> -->
         <script>
 
         let setting;
@@ -114,10 +113,10 @@
                         score++;
                     }
                     shape.remove();
-                } else if (shape.y > height + 30) {
+                } if (shape.y > height + 30) {
                     shape.remove();
                 }
-        
+
             // show the score at the top left
                 fill(0);
                 text("Score: " + score, 10, 15);
