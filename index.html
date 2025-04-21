@@ -36,86 +36,76 @@
         <script src="https://p5play.org/v3/planck.min.js"></script>
         <script src="https://p5play.org/v3/p5play.js"></script>
         <script>
-            let setting;
-            let settingY = 0;
-            let basket; // the thing you move
-            let shapes; // the falling stuff
-            let score = 0; // how many you catch
-            let gameOver = false; // to make it game over
+            
+        let setting;
+        let settingY = 0;
+        let basket;
+        let shapes;
+        let score = 0;
+        let gameOver = false;
 
-            function preload() {
-                setting = loadImage("wood.png");
+        function preload() {
+            setting = loadImage("wood.png");
+        }
+
+        function setup() {
+            createCanvas(600, 400);
+            basket = new Sprite(300, 370, 100, 20, 'static');
+            basket.color = 'brown';
+            shapes = new Group();
+            textSize(20);
+        }
+
+        function draw() {
+            background(240);
+            image(setting, 0, settingY, width, height);
+            image(setting, 0, settingY + height, width, height);
+            settingY--;
+            if (settingY < -height) settingY = 0;
+
+            if (gameOver) {
+                fill(255, 0, 0);
+                textAlign(CENTER, CENTER);
+                textSize(40);
+                text("GAME OVER", width / 2, height / 2);
+                return;
             }
 
-            function setup() {
-                createCanvas(600, 400);  // make the game screen
-                basket = new Sprite(300, 370, 100, 20, 'static');  // position x, y, width, height
-                basket.color = 'brown';
-                shapes = new Group();    // group to hold all falling shapes
-                textSize(20);  // text size for score
+            basket.x = constrain(mouseX, 50, 550);
+
+            if (frameCount % 30 === 0) {
+                let shape = new Sprite(shapes);
+                shape.x = random(50, 550);
+                shape.y = -20;
+                shape.diameter = random(20, 40);
+                shape.vel.y = random(2, 5);
+
+                // Randomly assign color and type
+                if (random() < 0.3) {
+                    shape.color = 'orange';   // deadly
+                    shape.isDeadly = true;
+                } else {
+                    shape.color = 'green';    // safe
+                    shape.isDeadly = false;
+                }
             }
 
-            function draw() {
-                background(240);  // light gray background
-                image(setting, 0, settingY, width, height);
-                image(setting, 0, settingY + height, width, height);
-                settingY--;
-                if (settingY < -height) {
-                    settingY = 0;
-                }
-
-                if (gameOver) {
-                    fill(255, 0, 0);
-                    textAlign(CENTER, CENTER);
-                    textSize(40);
-                    text("GAME OVER", width / 2, height / 2);
-                    return; // stop the game
-                }
-
-                // Move the basket to follow the mouse
-                basket.x = constrain(mouseX, 50, 550); // keep inside screen
-
-                // Every 30 frames (half a second), drop a shape
-                if (frameCount % 30 === 0 && !gameOver) {
-                    let shape = new Sprite(random(50, 550), -20, random(20, 40), random(20, 40), 'dynamic');  // random spot at top
-                    shape.vel.y = random(2, 5);   // falling speed
-
-                    if (random() < 0.3) {
-                        // Square shape (danger)
-                        shape.shapeColor = 'red';
-                        shape.isSquare = true;
+            for (let shape of shapes) {
+                if (shape.overlapping(basket)) {
+                    if (shape.isDeadly) {
+                        gameOver = true;
                     } else {
-                        // Circle shape (safe)
-                        shape.shapeColor = 'green';
-                        shape.isSquare = false;
+                        score++;
                     }
-
-                    shapes.add(shape);
+                    shape.remove();
+                } else if (shape.y > height + 30) {
+                    shape.remove();
                 }
-
-                // Loop through the shapes
-                for (let shape of shapes) {
-                    shape.update();
-
-                    // If it touches the basket, you get a point
-                    if (basket.collide(shape)) {
-                        if (shape.isSquare) {
-                            gameOver = true; // End the game if a dangerous shape touches
-                        } else {
-                            score++; // Increment score for safe shape
-                        }
-                        shape.remove(); // Remove the shape
-                    }
-
-                    if (shape.y > height + 30) {
-                        shape.remove(); // Remove shapes that fall below the canvas
-                    }
-                }
-
-                // Show the score at the top left
-                fill(0);
-                text("Score: " + score, 10, 15);
             }
+
+            fill(0);
+            text("Score: " + score, 10, 20);
+        }
         </script>
     </body>
 </html>
