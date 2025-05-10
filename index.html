@@ -45,6 +45,7 @@
         let shapes;
         let score = 0;
         let gameOver = false;
+        let isPaused = false;
 
 
         let banana;
@@ -83,6 +84,18 @@
             image(setting, 0, settingY + height, width, height); // Second image right below the first one
             settingY--; // Moving the background upwards each frame
             if (settingY < -height) settingY = 0; // Resets its position on loop
+
+
+            if (isPaused) {
+                push() // Save current drawing setting
+                fill(0);
+                textAlign(CENTER, CENTER);
+                textSize(32);
+                text("PAUSED", width / 2, height / 2);
+                pop() // Restore previous settings
+                return; // Stop drawing the rest
+            }
+
 
             // If game over, show GAME OVER text and stop the game
             if (gameOver) {
@@ -154,9 +167,25 @@
             }
 
             // Display of the score that is in the top-left corner
+            textSize(20);
             fill(0);
             text("Score: " + score, 10, 20);
         }
+
+        function keyPressed() {
+            if (key === 'p' || key === 'P') {
+                isPaused = !isPaused; // Toggle pause on P key
+            }
+        }
+
+    //     function mousePressed() {
+    //         if (gameOver) {
+    //         // Reset everything
+    //         gameOver = false;
+    //         score = 0;
+    //         shapes.removeAll(); // Clear existing shapes
+    //     }
+    // }
 
         </script>
     </body>
