@@ -46,8 +46,16 @@
         let score = 0;
         let gameOver = false;
 
+
+        // let banana;
+        // let bananaImg;
+        // let trash;
+        // let trashImg;
+
         function preload() {
             setting = loadImage("wood.png");
+            // bananaImg = loadImage("fruits.png");
+            // trashImg = loadImage("trash.png");
         }
 
         function setup() {
@@ -56,6 +64,11 @@
             basket.color = 'brown';
             shapes = new Group();
             textSize(20);
+
+            // banana = new Sprite();
+            // banana.image = bananaImg;
+            // trash = new Sprite();
+            // trash.image = trashImg;
         }
 
         function draw() {
