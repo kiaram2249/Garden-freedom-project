@@ -45,8 +45,6 @@
         let shapes;
         let score = 0;
         let gameOver = false;
-
-
         let banana;
         let bananaImg;
         let trash;
@@ -59,13 +57,11 @@
         }
         function setup() {
             createCanvas(600, 400);
-
             // Create the player's basket as a static sprite
             basket = new Sprite(300, 370, 100, 20, 'static');
             basket.color = 'brown';
             shapes = new Group(); // Group to hold all falling items
             textSize(20); // Default text size
-
             // banana = new Sprite();
             // banana.image = bananaImg;
             // trash = new Sprite();
@@ -83,14 +79,14 @@
             settingY--; // Moving the background upwards each frame
             if (settingY < -height) settingY = 0; // Resets its position on loop
 
-            // If game over, show GAME OVER text and stop the game
-            if (gameOver) {
+            if (gameOver) {// If game over, show GAME OVER text and stop the game
                 fill(255, 0, 0);
                 textAlign(CENTER, CENTER);
                 textSize(40);
                 text("GAME OVER", width / 2, height / 2);
                 return;
             }
+
             // Move the basket horizontally with the mouse being constrained to canas edges
             basket.x = constrain(mouseX, 50, 550);
 
@@ -114,8 +110,7 @@
                     shape.isDeadly = false;
                     shape.scale = 0.3; // Setting banana image size
                 }
-
-                // Resize image-basded shape
+                // Resize image-based shape
                 // shape.scale = 0.2; // smaller size
             }
 
