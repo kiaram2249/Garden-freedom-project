@@ -47,15 +47,15 @@
         let gameOver = false;
 
 
-        // let banana;
-        // let bananaImg;
-        // let trash;
-        // let trashImg;
+        let banana;
+        let bananaImg;
+        let trash;
+        let trashImg;
 
         function preload() {
             setting = loadImage("wood.png");
-            // bananaImg = loadImage("fruits.png");
-            // trashImg = loadImage("trash.png");
+            bananaImg = loadImage("fruits.png");
+            trashImg = loadImage("trash.png");
         }
 
         function setup() {
@@ -73,6 +73,8 @@
 
         function draw() {
             background(240);
+            // image(banana, 50, 50);
+            // image(trash, 50, 50);
             image(setting, 0, settingY, width, height);
             image(setting, 0, settingY + height, width, height);
             settingY--;
@@ -92,18 +94,43 @@
                 let shape = new Sprite(shapes);
                 shape.x = random(50, 550);
                 shape.y = -20;
-                shape.diameter = random(20, 40);
                 shape.vel.y = random(2, 5);
 
-                // Randomly assign color and type
                 if (random() < 0.3) {
-                    shape.color = 'orange';   // deadly
+                    // Deadly (trashbag)
+                    shape.image = trashImg;
                     shape.isDeadly = true;
+                    shape.scale = 0.1;
                 } else {
-                    shape.color = 'green';    // safe
+                    // Safe (banana)
+                    shape.image = bananaImg;
                     shape.isDeadly = false;
+                    shape.scale = 0.3;
                 }
+
+                // Resize image-basded shape
+                // shape.scale = 0.2; // smaller size
             }
+
+
+
+
+            // if (frameCount % 30 === 0) {
+            //     let shape = new Sprite(shapes);
+            //     shape.x = random(50, 550);
+            //     shape.y = -20;
+            //     shape.diameter = random(20, 40);
+            //     shape.vel.y = random(2, 5);
+
+            //     // Randomly assign color and type
+            //     if (random() < 0.3) {
+            //         shape.color = 'orange';   // deadly
+            //         shape.isDeadly = true;
+            //     } else {
+            //         shape.color = 'green';    // safe
+            //         shape.isDeadly = false;
+            //     }
+            // }
 
             for (let shape of shapes) {
                 if (shape.overlapping(basket)) {
