@@ -57,7 +57,6 @@
             bananaImg = loadImage("fruits.png");
             trashImg = loadImage("trash.png");
         }
-
         function setup() {
             createCanvas(600, 400);
             basket = new Sprite(300, 370, 100, 20, 'static');
@@ -87,7 +86,6 @@
                 text("GAME OVER", width / 2, height / 2);
                 return;
             }
-
             basket.x = constrain(mouseX, 50, 550);
 
             if (frameCount % 30 === 0) {
@@ -111,26 +109,6 @@
                 // Resize image-basded shape
                 // shape.scale = 0.2; // smaller size
             }
-
-
-
-
-            // if (frameCount % 30 === 0) {
-            //     let shape = new Sprite(shapes);
-            //     shape.x = random(50, 550);
-            //     shape.y = -20;
-            //     shape.diameter = random(20, 40);
-            //     shape.vel.y = random(2, 5);
-
-            //     // Randomly assign color and type
-            //     if (random() < 0.3) {
-            //         shape.color = 'orange';   // deadly
-            //         shape.isDeadly = true;
-            //     } else {
-            //         shape.color = 'green';    // safe
-            //         shape.isDeadly = false;
-            //     }
-            // }
 
             for (let shape of shapes) {
                 if (shape.overlapping(basket)) {
