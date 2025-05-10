@@ -58,7 +58,6 @@
             bananaImg = loadImage("fruits.png"); // Banana image (safe)
             trashImg = loadImage("trash.png"); // Trash image (deadly)
         }
-
         function setup() {
             createCanvas(600, 400);
 
@@ -105,7 +104,6 @@
                 text("GAME OVER", width / 2, height / 2);
                 return;
             }
-
             // Move the basket horizontally with the mouse being constrained to canas edges
             basket.x = constrain(mouseX, 50, 550);
 
@@ -134,25 +132,6 @@
                 // shape.scale = 0.2; // smaller size
             }
 
-            // if (frameCount % 30 === 0) {
-            //     let shape = new Sprite(shapes);
-            //     shape.x = random(50, 550);
-            //     shape.y = -20;
-            //     shape.diameter = random(20, 40);
-            //     shape.vel.y = random(2, 5);
-
-            //     // Randomly assign color and type
-            //     if (random() < 0.3) {
-            //         shape.color = 'orange';   // deadly
-            //         shape.isDeadly = true;
-            //     } else {
-            //         shape.color = 'green';    // safe
-            //         shape.isDeadly = false;
-            //     }
-            // }
-
-
-            // Check for collisions and handle score or game over
             for (let shape of shapes) {
                 if (shape.overlapping(basket)) {
                     if (shape.isDeadly) {
