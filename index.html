@@ -37,7 +37,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.10.0/addons/p5.sound.min.js"></script>
         <script src="https://p5play.org/v3/planck.min.js"></script>
         <script src="https://p5play.org/v3/p5play.js"></script>
-        <script>
+
+<script>
 
         let setting;
         let settingY = 0;
@@ -45,6 +46,7 @@
         let shapes;
         let score = 0;
         let gameOver = false;
+
 
         function preload() {
             setting = loadImage("wood.png");
@@ -102,8 +104,8 @@
                     shape.remove();
                 } else if (shape.y > height + 30) {
                     shape.remove();
-                }
             }
+        }
 
             fill(0);
             text("Score: " + score, 10, 20);
