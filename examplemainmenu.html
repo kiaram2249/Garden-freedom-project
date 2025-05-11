@@ -37,8 +37,37 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.10.0/addons/p5.sound.min.js"></script>
         <script src="https://p5play.org/v3/planck.min.js"></script>
         <script src="https://p5play.org/v3/p5play.js"></script>
+        <script src="https://unpkg.com/kaboom/dist/kaboom.js"></script>
+        <script>
+//      Main Menu
+        kaboom();
 
-<script>
+        loadSprite("Menu", "sprites/");
+
+        scene("start", () => {
+            add([
+                text("Eat All"),
+                pos(center().sub(0, 100)),
+                scale(2),
+                anchor("center"),
+            ]);
+            add([
+                sprite("Menu"),
+                pos(center()),
+                scale(3),
+                anchor("center"),
+            ]);
+            onMousePress(() => {
+                // Remove Kaboom canvas
+                document.querySelector('canvas').remove();
+                // Start p5play
+                setup();
+                window.draw = draw;
+                window.keyPressed = keyPressed;
+                preload();
+            });
+        });
+        go("start");
 
         let setting;
         let settingY = 0;
@@ -51,8 +80,6 @@
         let bananaImg;
         let trash;
         let trashImg;
-
-
         function preload() {
             setting = loadImage("wood.png"); // Background image
             bananaImg = loadImage("fruits.png"); // Banana image (safe)
@@ -70,18 +97,16 @@
             // trash = new Sprite();
             // trash.image = trashImg;
         }
-
+        scene("game", () => {
         function draw() {
             background(240);
             // image(banana, 50, 50);
             // image(trash, 50, 50);
-
             // Draw the background image twice to create a seamless vertical scrolling effect
             image(setting, 0, settingY, width, height); // First image at current vertical position
             image(setting, 0, settingY + height, width, height); // Second image right below the first one
             settingY--; // Moving the background upwards each frame
             if (settingY < -height) settingY = 0; // Resets its position on loop
-
             if (isPaused) {
                 push() // Save current drawing setting
                 fill(0);
@@ -91,7 +116,6 @@
                 pop() // Restore previous settings
                 return; // Stop drawing the rest
             }
-
             // If game over, show GAME OVER text and stop the game
             if (gameOver) {
                 fill(255, 0, 0);
@@ -100,17 +124,14 @@
                 text("GAME OVER", width / 2, height / 2);
                 return;
             }
-
             // Move the basket horizontally with the mouse being constrained to canas edges
             basket.x = constrain(mouseX, 50, 550);
-
             // Create a new falling shape every 30 frames
             if (frameCount % 30 === 0) {
                 let shape = new Sprite(shapes); // Create a new sprite in the shapes group
                 shape.x = random(50, 550); // Random horizontal position
                 shape.y = -20; // start above the canvas
                 shape.vel.y = random(2, 5); // Random falling speed
-
                 if (random() < 0.3) {
                     // 30% chance of spawning trash
                     // Deadly (trashbag)
@@ -127,7 +148,6 @@
                 // Resize image-based shape
                 // shape.scale = 0.2; // smaller size
             }
-
             for (let shape of shapes) {
                 if (shape.overlapping(basket)) {
                     if (shape.isDeadly) {
@@ -137,26 +157,20 @@
                     }
                     shape.remove(); // Remove the caught shape
                 } else if (shape.y > height + 30) {
-
-                    shape.remove();
-
                     shape.remove(); // Remove shapes that fall off the bottom of the screen
                 }
-
             }
-        }
-
             // Display of the score that is in the top-left corner
             textSize(20);
             fill(0);
             text("Score: " + score, 10, 20);
-
+        }
         function keyPressed() {
             if (key === 'p' || key === 'P') {
                 isPaused = !isPaused; // Toggle pause on P key
             }
         }
-
+    })
     //     function mousePressed() {
     //         if (gameOver) {
     //         // Reset everything
@@ -165,7 +179,6 @@
     //         shapes.removeAll(); // Clear existing shapes
     //     }
     // }
-
         </script>
     </body>
 </html>
