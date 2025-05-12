@@ -38,7 +38,7 @@
         <script src="https://p5play.org/v3/planck.min.js"></script>
         <script src="https://p5play.org/v3/p5play.js"></script>
        <script>
-        
+
         let setting;
         let settingY = 0;
         let basket;
@@ -50,11 +50,13 @@
         let bananaImg;
         let trash;
         let trashImg;
+
         function preload() {
             setting = loadImage("wood.png"); // Background image
             bananaImg = loadImage("fruits.png"); // Banana image (safe)
             trashImg = loadImage("trash.png"); // Trash image (deadly)
         }
+
         function setup() {
             createCanvas(600, 400);
             // Create the player's basket as a static sprite
@@ -67,6 +69,7 @@
             // trash = new Sprite();
             // trash.image = trashImg;
         }
+
         function draw() {
             background(240);
             // image(banana, 50, 50);
@@ -85,6 +88,7 @@
                 pop() // Restore previous settings
                 return; // Stop drawing the rest
             }
+
             // If game over, show GAME OVER text and stop the game
             if (gameOver) {
                 fill(255, 0, 0);
@@ -94,8 +98,10 @@
                 return;
                 onKeyPress(() => go("game"))
             }
+
             // Move the basket horizontally with the mouse being constrained to canas edges
             basket.x = constrain(mouseX, 50, 550);
+
             // Create a new falling shape every 30 frames
             if (frameCount % 30 === 0) {
                 let shape = new Sprite(shapes); // Create a new sprite in the shapes group
@@ -118,6 +124,7 @@
                 // Resize image-based shape
                 // shape.scale = 0.2; // smaller size
             }
+
             for (let shape of shapes) {
                 if (shape.overlapping(basket)) {
                     if (shape.isDeadly) {
@@ -130,11 +137,13 @@
                     shape.remove(); // Remove shapes that fall off the bottom of the screen
                 }
             }
+
             // Display of the score that is in the top-left corner
             textSize(20);
             fill(0);
             text("Score: " + score, 10, 20);
         }
+
         function keyPressed() {
             if (key === 'p' || key === 'P') {
                 isPaused = !isPaused; // Toggle pause on P key
@@ -148,6 +157,7 @@
     //         shapes.removeAll(); // Clear existing shapes
     //     }
     // }
+    
     go("start")
         </script>
     </body>
