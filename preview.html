@@ -37,28 +37,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.10.0/addons/p5.sound.min.js"></script>
         <script src="https://p5play.org/v3/planck.min.js"></script>
         <script src="https://p5play.org/v3/p5play.js"></script>
-        <script type="module">
-// import kaboom.js
-import kaboom from "https://unpkg.com/kaboom@3000.0.1/dist/kaboom.mjs";
-kaboom();
-loadSprite("Menu", "sprites/SonicMainMenu.png")
-loadSound("MenuTheme", "music/Sonic 3 A.I.R. - Sonic 3 Theme(M4A_128K).mp3")
-scene("start", () => {
-    add([
-        text("Eat All"),
-        pos(center().sub(0, 100)),
-        scale(2),
-        anchor("center"),
-    ])
-    add([
-        sprite("Menu"),
-        pos(center()),
-        scale(2),
-        anchor("center"),
-    ])
-    onKeyPress(() => go("game"))
-})
-scene("game")
+       <script>
+        
         let setting;
         let settingY = 0;
         let basket;
