@@ -46,15 +46,17 @@
         let score = 0;
         let gameOver = false;
         let isPaused = false;
-        let banana;
+        // let banana;
         let bananaImg;
-        let trash;
+        // let trash;
         let trashImg;
+        let bugImg;
 
         function preload() {
             setting = loadImage("wood.png"); // Background image
             bananaImg = loadImage("fruits.png"); // Banana image (safe)
-            trashImg = loadImage("trash.png"); // Trash image (deadly)
+            // trashImg = loadImage("trash.png"); // Trash image (deadly)
+            bugImg = loadImage("bug.png"); // Bug image (deadly)
         }
 
         function setup() {
@@ -109,11 +111,11 @@
                 shape.y = -20; // start above the canvas
                 shape.vel.y = random(2, 5); // Random falling speed
                 if (random() < 0.3) {
-                    // 30% chance of spawning trash
-                    // Deadly (trashbag)
-                    shape.image = trashImg;
+                    // 30% chance of spawning bug
+                    // Deadly (bug)
+                    shape.image = bugImg;
                     shape.isDeadly = true;
-                    shape.scale = 0.1; // Setting trash image size
+                    shape.scale = 0.5; // Setting bug image size
                 } else {
                     //70% chance of spawning banana (safe)
                     // Safe (banana)
