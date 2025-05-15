@@ -37,8 +37,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.10.0/addons/p5.sound.min.js"></script>
         <script src="https://p5play.org/v3/planck.min.js"></script>
         <script src="https://p5play.org/v3/p5play.js"></script>
-
-<script>
+        <script>
+//      Main Menu
 
         let setting;
         let settingY = 0;
@@ -47,16 +47,16 @@
         let score = 0;
         let gameOver = false;
         let isPaused = false;
-        let banana;
+        let banana = true;
         let bananaImg;
         let trash;
         let trashImg;
-
 
         function preload() {
             setting = loadImage("wood.png"); // Background image
             bananaImg = loadImage("fruits.png"); // Banana image (safe)
             trashImg = loadImage("trash.png"); // Trash image (deadly)
+
         }
         function setup() {
             createCanvas(600, 400);
@@ -64,24 +64,24 @@
             basket = new Sprite(300, 370, 100, 20, 'static');
             basket.color = 'brown';
             shapes = new Group(); // Group to hold all falling items
-            textSize(20); // Default text size
+            textSize(20);
+            // Default text size
             // banana = new Sprite();
             // banana.image = bananaImg;
             // trash = new Sprite();
             // trash.image = trashImg;
+
         }
 
         function draw() {
             background(240);
             // image(banana, 50, 50);
             // image(trash, 50, 50);
-
             // Draw the background image twice to create a seamless vertical scrolling effect
             image(setting, 0, settingY, width, height); // First image at current vertical position
             image(setting, 0, settingY + height, width, height); // Second image right below the first one
             settingY--; // Moving the background upwards each frame
             if (settingY < -height) settingY = 0; // Resets its position on loop
-
             if (isPaused) {
                 push() // Save current drawing setting
                 fill(0);
@@ -91,7 +91,6 @@
                 pop() // Restore previous settings
                 return; // Stop drawing the rest
             }
-
             // If game over, show GAME OVER text and stop the game
             if (gameOver) {
                 fill(255, 0, 0);
@@ -100,17 +99,14 @@
                 text("GAME OVER", width / 2, height / 2);
                 return;
             }
-
             // Move the basket horizontally with the mouse being constrained to canas edges
             basket.x = constrain(mouseX, 50, 550);
-
             // Create a new falling shape every 30 frames
             if (frameCount % 30 === 0) {
                 let shape = new Sprite(shapes); // Create a new sprite in the shapes group
                 shape.x = random(50, 550); // Random horizontal position
                 shape.y = -20; // start above the canvas
                 shape.vel.y = random(2, 5); // Random falling speed
-
                 if (random() < 0.3) {
                     // 30% chance of spawning trash
                     // Deadly (trashbag)
@@ -127,7 +123,6 @@
                 // Resize image-based shape
                 // shape.scale = 0.2; // smaller size
             }
-
             for (let shape of shapes) {
                 if (shape.overlapping(basket)) {
                     if (shape.isDeadly) {
@@ -137,20 +132,14 @@
                     }
                     shape.remove(); // Remove the caught shape
                 } else if (shape.y > height + 30) {
-
-                    shape.remove();
-
                     shape.remove(); // Remove shapes that fall off the bottom of the screen
                 }
-
             }
-        }
-
             // Display of the score that is in the top-left corner
             textSize(20);
             fill(0);
             text("Score: " + score, 10, 20);
-
+        }
         function keyPressed() {
             if (key === 'p' || key === 'P') {
                 isPaused = !isPaused; // Toggle pause on P key
