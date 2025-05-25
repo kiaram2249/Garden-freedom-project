@@ -46,17 +46,29 @@
         let score = 0;
         let gameOver = false;
         let isPaused = false;
-        // let banana;
+
+// The Fruits:
         let bananaImg;
-        // let trash;
-        let trashImg;
+        let mangoImg;
+        let blueberryImg;
+// The Bugs:
         let bugImg;
+        let sinkbugImg;
+        let beetleImg;
+// Scales:
+        let safeScales, deadlyScales;
 
         function preload() {
             setting = loadImage("wood.png"); // Background image
+
             bananaImg = loadImage("fruits.png"); // Banana image (safe)
-            // trashImg = loadImage("trash.png"); // Trash image (deadly)
+            blueberryImg = loadImage("blueberry.png"); // safe
+            mangoImg = loadImage("mango.png"); // safe
+
             bugImg = loadImage("bug.png"); // Bug image (deadly)
+            sinkbugImg = loadImage("sinkbug.png"); // deadly
+            beetleImg = loadImage("beetle.png"); // deadly
+            // trashImg = loadImage("trash.png"); // Trash image (deadly)
         }
 
         function setup() {
@@ -66,21 +78,28 @@
             basket.color = 'brown';
             shapes = new Group(); // Group to hold all falling items
             textSize(20); // Default text size
-            // banana = new Sprite();
-            // banana.image = bananaImg;
-            // trash = new Sprite();
-            // trash.image = trashImg;
-        }
+
+            safeScales = new Map([
+            [bananaImg, 0.3],
+            [blueberryImg, 0.4],
+            [mangoImg, 0.15],
+        ]);
+
+            deadlyScales = new Map([
+            [bugImg, 0.5],
+            [sinkbugImg, 0.5],
+            [beetleImg, 0.8],
+        ]);
+    }
 
         function draw() {
             background(240);
-            // image(banana, 50, 50);
-            // image(trash, 50, 50);
             // Draw the background image twice to create a seamless vertical scrolling effect
             image(setting, 0, settingY, width, height); // First image at current vertical position
             image(setting, 0, settingY + height, width, height); // Second image right below the first one
             settingY--; // Moving the background upwards each frame
             if (settingY < -height) settingY = 0; // Resets its position on loop
+
             if (isPaused) {
                 push() // Save current drawing setting
                 fill(0);
@@ -110,21 +129,29 @@
                 shape.x = random(50, 550); // Random horizontal position
                 shape.y = -20; // start above the canvas
                 shape.vel.y = random(2, 5); // Random falling speed
+
+                let selectedImg;
+
                 if (random() < 0.3) {
                     // 30% chance of spawning bug
-                    // Deadly (bug)
-                    shape.image = bugImg;
+                    // Deadly (bugs)
+                    const deadlyImages = [bugImg, sinkbugImg, beetleImg,];
+                    selectedImg = random(deadlyImages);
+                    shape.image = selectedImg;
+                    // shape.image = random(deadlyImages);
                     shape.isDeadly = true;
-                    shape.scale = 0.5; // Setting bug image size
+                    shape.scale = deadlyScales.get(selectedImg); // Setting bugs image size
+
                 } else {
                     //70% chance of spawning banana (safe)
                     // Safe (banana)
-                    shape.image = bananaImg;
+                    const safeImages = [bananaImg, blueberryImg, mangoImg];
+                    selectedImg = random(safeImages);
+                    shape.image = selectedImg;
                     shape.isDeadly = false;
-                    shape.scale = 0.3; // Setting banana image size
+                    shape.scale = safeScales.get(selectedImg); // Setting fruit image size
+                    // shape.image = bananaImg;
                 }
-                // Resize image-based shape
-                // shape.scale = 0.2; // smaller size
             }
 
             for (let shape of shapes) {
@@ -151,6 +178,7 @@
                 isPaused = !isPaused; // Toggle pause on P key
             }
         }
+
     //     function mousePressed() {
     //         if (gameOver) {
     //         // Reset everything
