@@ -37,28 +37,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.10.0/addons/p5.sound.min.js"></script>
         <script src="https://p5play.org/v3/planck.min.js"></script>
         <script src="https://p5play.org/v3/p5play.js"></script>
-        <script type="module">
-// import kaboom.js
-import kaboom from "https://unpkg.com/kaboom@3000.0.1/dist/kaboom.mjs";
-kaboom();
-loadSprite("Menu", "sprites/SonicMainMenu.png")
-loadSound("MenuTheme", "music/Sonic 3 A.I.R. - Sonic 3 Theme(M4A_128K).mp3")
-scene("start", () => {
-    add([
-        text("Eat All"),
-        pos(center().sub(0, 100)),
-        scale(2),
-        anchor("center"),
-    ])
-    add([
-        sprite("Menu"),
-        pos(center()),
-        scale(2),
-        anchor("center"),
-    ])
-    onKeyPress(() => go("game"))
-})
-scene("game")
+       <script>
+
         let setting;
         let settingY = 0;
         let basket;
@@ -66,27 +46,33 @@ scene("game")
         let score = 0;
         let gameOver = false;
         let isPaused = false;
-        let banana;
+        // let banana;
         let bananaImg;
-        let trash;
+        // let trash;
         let trashImg;
+        let bugImg;
+
         function preload() {
             setting = loadImage("wood.png"); // Background image
             bananaImg = loadImage("fruits.png"); // Banana image (safe)
-            trashImg = loadImage("trash.png"); // Trash image (deadly)
+            bugImg = loadImage("bug.png"); // Bug image (deadly)
         }
+
         function setup() {
             createCanvas(600, 400);
             // Create the player's basket as a static sprite
             basket = new Sprite(300, 370, 100, 20, 'static');
             basket.color = 'brown';
             shapes = new Group(); // Group to hold all falling items
-            textSize(20); // Default text size
+            textSize(20);
+            // Default text size
             // banana = new Sprite();
             // banana.image = bananaImg;
             // trash = new Sprite();
             // trash.image = trashImg;
+
         }
+
         function draw() {
             background(240);
             // image(banana, 50, 50);
@@ -123,11 +109,11 @@ scene("game")
                 shape.y = -20; // start above the canvas
                 shape.vel.y = random(2, 5); // Random falling speed
                 if (random() < 0.3) {
-                    // 30% chance of spawning trash
-                    // Deadly (trashbag)
-                    shape.image = trashImg;
+                    // 30% chance of spawning bug
+                    // Deadly (bug)
+                    shape.image = bugImg;
                     shape.isDeadly = true;
-                    shape.scale = 0.1; // Setting trash image size
+                    shape.scale = 0.5; // Setting bug image size
                 } else {
                     //70% chance of spawning banana (safe)
                     // Safe (banana)
@@ -168,6 +154,7 @@ scene("game")
     //         shapes.removeAll(); // Clear existing shapes
     //     }
     // }
+
     go("start")
         </script>
     </body>

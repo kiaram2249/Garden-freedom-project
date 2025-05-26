@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -9,18 +7,20 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
         <style>
             /* CSS */
+
         </style>
         <title>Falling Shapes Game</title>
     </head>
     <body>
-        <iframe src="instructions.html" width="800" height="600"></iframe>
+        <iframe src="anotherFile.html" width="800" height="600"></iframe>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-   <script type="module">
+          -->
+        <script type="module">
 //      Main Menu
 import kaboom from "https://unpkg.com/kaboom@3000.0.1/dist/kaboom.mjs";
 
 kaboom({
-    background: [141, 183, 255],
+	background: [141, 183, 255],
 })
 
      loadSprite("Menu", "sprites/garden-background (3).png");
@@ -31,26 +31,41 @@ kaboom({
                 anchor("center"),
             ]);
             add([
-                text("Welcome to the Garden!"),
-                color(18, 1, 255),
+                text("Instructions!"),
+				color(18, 1, 255),
                 pos(center().sub(0.5, 100)),
-                scale(2.2),
+                scale(1.15),
                 anchor("center"),
             ]);
             add([
-                text("Press Mouse to play!"),
-                color(18, 1, 255),
+                text("Collect the fruits!"),
+				color(18, 1, 255),
                 pos(center().sub(0.5, 0.5)),
-                scale(2.2),
+                scale(1.5),
+                anchor("center"),
+            ]);
+            add([
+                text("Avoid the bugs!"),
+				color(18, 1, 255),
+                pos(center().sub(0.5, -70)),
+                scale(1.5),
+                anchor("center"),
+            ]);
+                add([
+                text("Use the pattle to move side by side"),
+				color(18, 1, 255),
+                pos(center().sub(0.5, -150)),
+                scale(1.5),
                 anchor("center"),
             ]);
 
+
+
             onMousePress(() => {
-            location = "Instructions.html";
+            location = "mini-game.html";
 
             });
 
         </script>
     </body>
 </html>
-
