@@ -46,46 +46,84 @@
         let score = 0;
         let gameOver = false;
         let isPaused = false;
-        // let banana;
+
+// The Basket:
+        let basketsImg;
+
+// The Fruits:
         let bananaImg;
-        // let trash;
-        let trashImg;
+        let mangoImg;
+        let blueberryImg;
+// The Bugs:
         let bugImg;
+        let sinkbugImg;
+        let beetleImg;
+// Scales:
+        let safeScales, deadlyScales;
 
         function preload() {
-            setting = loadImage("wood.png"); // Background image
-            bananaImg = loadImage("fruits.png"); // Banana image (safe)
-            bugImg = loadImage("bug.png"); // Bug image (deadly)
+
+// Background image
+            setting = loadImage("wood.png");
+
+// Basket image
+            basketsImg = loadImage("baskets.png");
+
+// Fruits image (safe)
+            bananaImg = loadImage("fruits.png");
+            blueberryImg = loadImage("blueberry.png");
+            mangoImg = loadImage("mango.png");
+
+// Bugs image (deadly)
+            bugImg = loadImage("bug.png");
+            sinkbugImg = loadImage("sinkbug.png");
+            beetleImg = loadImage("beetle.png");
         }
 
         function setup() {
             createCanvas(600, 400);
             // Create the player's basket as a static sprite
-            basket = new Sprite(300, 370, 100, 20, 'static');
-            basket.color = 'brown';
-            shapes = new Group(); // Group to hold all falling items
-            textSize(20);
-            // Default text size
-            // banana = new Sprite();
-            // banana.image = bananaImg;
-            // trash = new Sprite();
-            // trash.image = trashImg;
+            // basket = new Sprite(300, 370, 100, 20, 'static');
+            // basket.color = 'brown';
+            // shapes = new Group(); // Group to hold all falling items
+            // textSize(20); // Default text size
 
-        }
+             basket = new Sprite(300, 370);
+             basket.img = basketsImg;
+             basket.scale = 1.2; // Adjust basket scale
+             basket.collider = 'k'; // 'k' = kinematic, doesn't react to physics
+             basket.d = 90; // Set collision size if needed
+
+             shapes = new Group(); // Group to hold all falling items
+             textSize(20);
+
+            safeScales = new Map([
+            [bananaImg, 0.3],
+            [blueberryImg, 0.4],
+            [mangoImg, 0.15],
+        ]);
+
+            deadlyScales = new Map([
+            [bugImg, 0.5],
+            [sinkbugImg, 0.5],
+            [beetleImg, 0.8],
+        ]);
+    }
 
         function draw() {
             background(240);
-            // image(banana, 50, 50);
-            // image(trash, 50, 50);
             // Draw the background image twice to create a seamless vertical scrolling effect
             image(setting, 0, settingY, width, height); // First image at current vertical position
             image(setting, 0, settingY + height, width, height); // Second image right below the first one
             settingY--; // Moving the background upwards each frame
+
             if (settingY < -height) settingY = 0; // Resets its position on loop
+
             if (isPaused) {
                 push() // Save current drawing setting
                 fill(0);
                 textAlign(CENTER, CENTER);
+                textFont("Time New Roman")
                 textSize(32);
                 text("PAUSED", width / 2, height / 2);
                 pop() // Restore previous settings
@@ -95,6 +133,7 @@
             if (gameOver) {
                 fill(255, 0, 0);
                 textAlign(CENTER, CENTER);
+                textFont("Time New Roman")
                 textSize(40);
                 text("GAME OVER", width / 2, height / 2);
                 return;
@@ -108,21 +147,29 @@
                 shape.x = random(50, 550); // Random horizontal position
                 shape.y = -20; // start above the canvas
                 shape.vel.y = random(2, 5); // Random falling speed
+
+                let selectedImg;
+
                 if (random() < 0.3) {
                     // 30% chance of spawning bug
-                    // Deadly (bug)
-                    shape.image = bugImg;
+                    // Deadly (bugs)
+                    const deadlyImages = [bugImg, sinkbugImg, beetleImg,];
+                    selectedImg = random(deadlyImages);
+                    shape.image = selectedImg;
+                    // shape.image = random(deadlyImages);
                     shape.isDeadly = true;
-                    shape.scale = 0.5; // Setting bug image size
+                    shape.scale = deadlyScales.get(selectedImg); // Setting bugs image size
+
                 } else {
                     //70% chance of spawning banana (safe)
                     // Safe (banana)
-                    shape.image = bananaImg;
+                    const safeImages = [bananaImg, blueberryImg, mangoImg];
+                    selectedImg = random(safeImages);
+                    shape.image = selectedImg;
                     shape.isDeadly = false;
-                    shape.scale = 0.3; // Setting banana image size
+                    shape.scale = safeScales.get(selectedImg); // Setting fruit image size
+                    // shape.image = bananaImg;
                 }
-                // Resize image-based shape
-                // shape.scale = 0.2; // smaller size
             }
             for (let shape of shapes) {
                 if (shape.overlapping(basket)) {
@@ -139,13 +186,16 @@
             // Display of the score that is in the top-left corner
             textSize(20);
             fill(0);
-            text("Score: " + score, 10, 20);
+            textSize(25);
+            textFont("Time New Roman")
+            text("Score: " + score, 10, 30);
         }
         function keyPressed() {
             if (key === 'p' || key === 'P') {
                 isPaused = !isPaused; // Toggle pause on P key
             }
         }
+
     //     function mousePressed() {
     //         if (gameOver) {
     //         // Reset everything
