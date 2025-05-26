@@ -47,6 +47,9 @@
         let gameOver = false;
         let isPaused = false;
 
+// The Basket:
+        let basketsImg;
+
 // The Fruits:
         let bananaImg;
         let mangoImg;
@@ -59,25 +62,39 @@
         let safeScales, deadlyScales;
 
         function preload() {
-            setting = loadImage("wood.png"); // Background image
+// Background image
+            setting = loadImage("wood.png");
 
-            bananaImg = loadImage("fruits.png"); // Banana image (safe)
-            blueberryImg = loadImage("blueberry.png"); // safe
-            mangoImg = loadImage("mango.png"); // safe
+// Basket image
+            basketsImg = loadImage("baskets.png");
 
-            bugImg = loadImage("bug.png"); // Bug image (deadly)
-            sinkbugImg = loadImage("sinkbug.png"); // deadly
-            beetleImg = loadImage("beetle.png"); // deadly
-            // trashImg = loadImage("trash.png"); // Trash image (deadly)
+// Fruits image (safe)
+            bananaImg = loadImage("fruits.png");
+            blueberryImg = loadImage("blueberry.png");
+            mangoImg = loadImage("mango.png");
+
+// Bugs image (deadly)
+            bugImg = loadImage("bug.png");
+            sinkbugImg = loadImage("sinkbug.png");
+            beetleImg = loadImage("beetle.png");
         }
 
         function setup() {
             createCanvas(600, 400);
             // Create the player's basket as a static sprite
-            basket = new Sprite(300, 370, 100, 20, 'static');
-            basket.color = 'brown';
-            shapes = new Group(); // Group to hold all falling items
-            textSize(20); // Default text size
+            // basket = new Sprite(300, 370, 100, 20, 'static');
+            // basket.color = 'brown';
+            // shapes = new Group(); // Group to hold all falling items
+            // textSize(20); // Default text size
+
+             basket = new Sprite(300, 370);
+             basket.img = basketsImg;
+             basket.scale = 1.2; // Adjust basket scale
+             basket.collider = 'k'; // 'k' = kinematic, doesn't react to physics
+             basket.d = 90; // Set collision size if needed
+
+             shapes = new Group(); // Group to hold all falling items
+             textSize(20);
 
             safeScales = new Map([
             [bananaImg, 0.3],
@@ -98,12 +115,14 @@
             image(setting, 0, settingY, width, height); // First image at current vertical position
             image(setting, 0, settingY + height, width, height); // Second image right below the first one
             settingY--; // Moving the background upwards each frame
+
             if (settingY < -height) settingY = 0; // Resets its position on loop
 
             if (isPaused) {
                 push() // Save current drawing setting
                 fill(0);
                 textAlign(CENTER, CENTER);
+                textFont("Time New Roman")
                 textSize(32);
                 text("PAUSED", width / 2, height / 2);
                 pop() // Restore previous settings
@@ -114,6 +133,7 @@
             if (gameOver) {
                 fill(255, 0, 0);
                 textAlign(CENTER, CENTER);
+                textFont("Time New Roman")
                 textSize(40);
                 text("GAME OVER", width / 2, height / 2);
                 return;
@@ -170,7 +190,9 @@
             // Display of the score that is in the top-left corner
             textSize(20);
             fill(0);
-            text("Score: " + score, 10, 20);
+            textSize(25);
+            textFont("Time New Roman")
+            text("Score: " + score, 10, 30);
         }
 
         function keyPressed() {
